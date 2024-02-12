@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+  stories-service:
+    build: ./stories-service
+    ports:
+      - "8001:8001"
