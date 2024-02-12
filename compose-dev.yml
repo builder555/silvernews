@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  stories:
+    build: ./service-stories
+    container_name: stories
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./service-stories:/app
+    environment:
+      - POETRY_VIRTUALENVS_IN_PROJECT=true
