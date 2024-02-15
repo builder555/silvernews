@@ -16,6 +16,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+@app.get("/")
+def get_stories():
+    return [
+        {"title": "Post 1", "url": "", "content": "This is the content of the first post"},
+        {"title": "Post 2", "url": "", "content": "This is the content of the second post"},
+    ]
 
 @app.get("/ping")
 def ping():
