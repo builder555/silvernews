@@ -1,5 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from api.db_interactor import DB
 
 origins = [
     "http://localhost",
@@ -16,12 +17,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+def get_db():
+    db = DB()
+    yield db
+
 @app.get("/")
-def get_stories():
-    return [
-        {"title": "Post 1", "url": "", "content": "This is the content of the first post"},
-        {"title": "Post 2", "url": "", "content": "This is the content of the second post"},
-    ]
+def get_stories(db = Depends(get_db)):
+    return db.get_stories()
 
 @app.get("/ping")
 def ping():
