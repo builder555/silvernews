@@ -10,3 +10,10 @@ services:
       - ./service-stories:/app
     environment:
       - POETRY_VIRTUALENVS_IN_PROJECT=true
+  auth:
+    build: ./service-auth
+    container_name: auth
+    ports:
+      - "5122:5122"
+    volumes:
+      - ./service-auth:/app
