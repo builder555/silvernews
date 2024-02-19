@@ -1,4 +1,3 @@
-from fastapi import FastAPI
 import pytest
 from fastapi.testclient import TestClient
 from api.main import app, get_db
