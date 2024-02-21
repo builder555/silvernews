@@ -19,7 +19,7 @@ app.add_middleware(
 )
 
 def get_db():
-    db = DB()
+    db = DB('db.json')
     yield db
 
 @app.get("/")
