@@ -8,6 +8,8 @@ authors = ["builder555", "mcraa"]
 python = "^3.9"
 fastapi = "^0.109.2"
 uvicorn = "^0.27.1"
+pytest-watch = "^4.2.0"
+black = "^24.2.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.0"
@@ -16,3 +18,7 @@ httpx = "^0.26.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+start = "api.main:start"
+test = "pytest:"

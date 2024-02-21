@@ -12,3 +12,9 @@ class DB:
     def get_stories(self):
         with open(self._file, "r") as f:
             return json.load(f)
+
+    def add_story(self, story: dict):
+        stories = self.get_stories()
+        stories.append(story)
+        with open(self._file, "w") as f:
+            json.dump(stories, f)

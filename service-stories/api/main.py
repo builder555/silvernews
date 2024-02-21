@@ -18,14 +18,29 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 def get_db():
-    db = DB('db.json')
+    db = DB("db.json")
     yield db
 
+
 @app.get("/")
-def get_stories(db = Depends(get_db)):
+def get_stories(db=Depends(get_db)):
     return db.get_stories()
+
 
 @app.get("/ping")
 def ping():
     return {"ping": "pong!"}
+
+
+@app.post("/")
+def add_new_story(story: dict, db=Depends(get_db)):
+    db.add_story(story)
+    return {"message": "Story added successfully!"}
+
+
+def start():
+    import uvicorn
+
+    uvicorn.run("api.main:app", host="0.0.0.0", port=8001, reload=True)
