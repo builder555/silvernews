@@ -18,11 +18,13 @@ def mock_db():
             "title": "Post 1",
             "url": "",
             "content": "This is the content of the first post",
+            "id": 1,
         },
         {
             "title": "Post 2",
             "url": "",
             "content": "This is the content of the second post",
+            "id": 2,
         },
     ]
     mockdb.add_story = MagicMock()
@@ -46,11 +48,13 @@ class TestMain:
                 "title": "Post 1",
                 "url": "",
                 "content": "This is the content of the first post",
+                "id": 1,
             },
             {
                 "title": "Post 2",
                 "url": "",
                 "content": "This is the content of the second post",
+                "id": 2,
             },
         ]
 
