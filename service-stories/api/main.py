@@ -20,7 +20,7 @@ app.add_middleware(
 
 
 def get_db():
-    db = DB("db.json")
+    db = DB("main.db")
     yield db
 
 
