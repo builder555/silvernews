@@ -14,17 +14,23 @@ def client():
 @pytest.fixture()
 def mock_db():
     mockdb = DB(path=":memory:")
-    mockdb._create_table("""CREATE TABLE IF NOT EXISTS `stories`(
-                          `id` integer PRIMARY KEY,
-                          `title` text NOT NULL,
-                          `content` text,
-                          `url` text,
-                          `poster` text NOT NULL
-                          )""")
-    mockdb._insert_data("INSERT INTO `stories` (`title`, `content`, `url`, `poster`) VALUES (?, ?, ?, ?)", 
-                    ("Post 1", "This is the content of the first post", "", "user1"))
-    mockdb._insert_data("INSERT INTO `stories` (`title`, `content`, `url`, `poster`) VALUES (?, ?, ?, ?)", 
-                    ("Post 2", "This is the content of the second post", "", "user2"))
+    mockdb._create_table(
+        """CREATE TABLE IF NOT EXISTS `stories`(
+                            `id` integer PRIMARY KEY,
+                            `title` text NOT NULL,
+                            `content` text,
+                            `url` text,
+                            `poster` text NOT NULL
+                          )"""
+    )
+    mockdb._insert_data(
+        "INSERT INTO `stories` (`title`, `content`, `url`, `poster`) VALUES (?, ?, ?, ?)",
+        ("Post 1", "This is the content of the first post", "", "user1"),
+    )
+    mockdb._insert_data(
+        "INSERT INTO `stories` (`title`, `content`, `url`, `poster`) VALUES (?, ?, ?, ?)",
+        ("Post 2", "This is the content of the second post", "", "user2"),
+    )
     app.dependency_overrides[get_db] = lambda: mockdb
     return mockdb
 
