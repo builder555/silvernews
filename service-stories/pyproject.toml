@@ -20,5 +20,6 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-start = "api.main:start"
-test = "pytest:"
+dev = "api.poetryrun:dev"
+watch = "api.poetryrun:watch"
+test = "api.poetryrun:test"

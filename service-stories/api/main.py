@@ -38,8 +38,3 @@ def ping():
 def add_new_story(story: dict, db=Depends(get_db)):
     db.add_story(story)
     return {"message": "Story added successfully!"}
-
-
-def start():
-    import uvicorn
-    uvicorn.run("api.main:app", host="0.0.0.0", port=8001, reload=True)
