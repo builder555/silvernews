@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from api.db_interactor import DB
+from api.story import StoryModel
 
 origins = [
     "http://localhost",
@@ -21,6 +22,16 @@ app.add_middleware(
 
 def get_db():
     db = DB("main.db")
+    if not db._table_exists("stories"):
+        db._create_table(
+            """CREATE TABLE IF NOT EXISTS `stories`(
+                    `id` integer PRIMARY KEY,
+                    `title` text NOT NULL,
+                    `content` text,
+                    `url` text,
+                    `poster` text NOT NULL
+                )"""
+        )
     yield db
 
 
@@ -35,6 +46,10 @@ def ping():
 
 
 @app.post("/")
-def add_new_story(story: dict, db=Depends(get_db)):
-    db.add_story(story)
+def add_new_story(story: StoryModel, db=Depends(get_db)):
+    db.add_story(story.model_dump())
     return {"message": "Story added successfully!"}
+
+@app.get("/{story_id}")
+def get_story(story_id: int, db=Depends(get_db)):
+    return db.get_story(story_id)

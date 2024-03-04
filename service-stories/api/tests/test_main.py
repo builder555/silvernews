@@ -95,3 +95,14 @@ class TestMain:
                 "id": 3,
             },
         ]
+
+    def test_get_one_story(self, client):
+        response = client.get("/1")
+        assert response.status_code == 200
+        assert response.json() == {
+            "title": "Post 1",
+            "url": "",
+            "content": "This is the content of the first post",
+            "poster": "user1",
+            "id": 1,
+        }
