@@ -4,3 +4,4 @@ poetry.lock
 .venv
 .env
 db.json
+main.db
