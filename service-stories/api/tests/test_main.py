@@ -96,6 +96,15 @@ class TestMain:
             },
         ]
 
+    def test_require_url_or_content_to_add_story(self, client, mock_db):
+        payload = {"title": "Post 3", "poster": "user3"}
+        response = client.post("/", json=payload)
+        assert response.status_code == 418
+        response = client.post("/", json={**payload, "url": "https://www.google.com"})
+        assert response.status_code == 200
+        response = client.post("/", json={**payload, "content": "test content"})
+        assert response.status_code == 200
+
     def test_get_one_story(self, client):
         response = client.get("/1")
         assert response.status_code == 200
@@ -106,3 +115,8 @@ class TestMain:
             "poster": "user1",
             "id": 1,
         }
+
+    def test_getting_non_existent_story_returns_404(self, client):
+        response = client.get("/100")
+        assert response.status_code == 404
+        assert response.json() == {"detail": "Story not found"}

@@ -1,23 +1,7 @@
-from fastapi import FastAPI, Depends
-from fastapi.middleware.cors import CORSMiddleware
-from api.db_interactor import DB
+from fastapi import Depends, HTTPException
+from api.db_interactor import DB, ItemNotFound
 from api.story import StoryModel
-
-origins = [
-    "http://localhost",
-    "http://127.0.0.1",
-    "http://127.0.0.1:8001",
-    "http://localhost:8001",
-]
-
-app = FastAPI()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+from api import app
 
 
 def get_db():
@@ -50,6 +34,10 @@ def add_new_story(story: StoryModel, db=Depends(get_db)):
     db.add_story(story.model_dump())
     return {"message": "Story added successfully!"}
 
+
 @app.get("/{story_id}")
 def get_story(story_id: int, db=Depends(get_db)):
-    return db.get_story(story_id)
+    try:
+        return db.get_story(story_id)
+    except ItemNotFound:
+        raise HTTPException(status_code=404, detail="Story not found")

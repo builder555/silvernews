@@ -1,6 +1,10 @@
 import sqlite3
 
 
+class ItemNotFound(Exception):
+    pass
+
+
 class DB:
 
     def __init__(self, path: str):
@@ -52,4 +56,6 @@ class DB:
 
     def get_story(self, story_id: int):
         stories = self._fetch_query("SELECT * FROM `stories` WHERE id=?", (story_id,))
+        if not stories:
+            raise ItemNotFound
         return stories[0]
