@@ -1,6 +1,6 @@
 from fastapi import Depends, HTTPException
 from api.db_interactor import DB, ItemNotFound
-from api.story import StoryModel
+from api.story import StoryModel, CommentModel
 from api import app
 
 
@@ -39,5 +39,13 @@ def add_new_story(story: StoryModel, db=Depends(get_db)):
 def get_story(story_id: int, db=Depends(get_db)):
     try:
         return db.get_story(story_id)
+    except ItemNotFound:
+        raise HTTPException(status_code=404, detail="Story not found")
+
+@app.post("/{story_id}/comment")
+def add_new_comment(comment: CommentModel, db=Depends(get_db)):
+    try:
+        # db.add_comment(story_id, comment)
+        return {"message": "Comment added successfully!"}
     except ItemNotFound:
         raise HTTPException(status_code=404, detail="Story not found")

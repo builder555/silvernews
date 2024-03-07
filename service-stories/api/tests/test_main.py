@@ -120,3 +120,7 @@ class TestMain:
         response = client.get("/100")
         assert response.status_code == 404
         assert response.json() == {"detail": "Story not found"}
+
+    def test_add_comment_to_story(self, client):
+        response = client.post("/1/comment", json={"text": "This is a comment", "poster": "user1"})
+        assert response.status_code == 200

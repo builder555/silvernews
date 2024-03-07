@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, model_validator
-from typing import Optional, Any
+from typing import Optional
 
 
 class StoryModel(BaseModel):
@@ -17,3 +17,8 @@ class StoryModel(BaseModel):
         if not self.url and not self.content:
             raise ValueError("Either url or content must be set.")
         return self
+
+class CommentModel(BaseModel):
+    id: Optional[int] = None
+    text: str = Field(json_schema_extra={"example": "This is a very interesting article about bitcoin"})
+    poster: str = Field(json_schema_extra={"example": "123"})
