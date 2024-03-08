@@ -20,5 +20,5 @@ class StoryModel(BaseModel):
 
 class CommentModel(BaseModel):
     id: Optional[int] = None
-    text: str = Field(json_schema_extra={"example": "This is a very interesting article about bitcoin"})
+    content: str = Field(json_schema_extra={"example": "This is a very interesting article about bitcoin"})
     poster: str = Field(json_schema_extra={"example": "123"})

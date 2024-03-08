@@ -16,6 +16,15 @@ def get_db():
                     `poster` text NOT NULL
                 )"""
         )
+        db._create_table(
+            """CREATE TABLE IF NOT EXISTS `comments`(
+                                `id` integer PRIMARY KEY,
+                                `story` integer NOT NULL,
+                                `content` text,
+                                `parent` integer,
+                                `poster` text NOT NULL
+                            )"""
+        )
     yield db
 
 
@@ -42,10 +51,18 @@ def get_story(story_id: int, db=Depends(get_db)):
     except ItemNotFound:
         raise HTTPException(status_code=404, detail="Story not found")
 
-@app.post("/{story_id}/comment")
-def add_new_comment(comment: CommentModel, db=Depends(get_db)):
+@app.post("/{story_id}/comments")
+def add_new_comment(story_id: int, comment: CommentModel, db=Depends(get_db)):
     try:
-        # db.add_comment(story_id, comment)
+        db.get_story(story_id)
+        db.add_comment(story_id, comment.model_dump())
         return {"message": "Comment added successfully!"}
+    except ItemNotFound:
+        raise HTTPException(status_code=404, detail="Story not found")
+
+@app.get("/{story_id}/comments")
+def get_comments(story_id: int, db=Depends(get_db)):
+    try:
+        return db.get_comments(story_id)
     except ItemNotFound:
         raise HTTPException(status_code=404, detail="Story not found")

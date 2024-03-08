@@ -23,6 +23,15 @@ def mock_db():
                             `poster` text NOT NULL
                           )"""
     )
+    mockdb._create_table(
+        """CREATE TABLE IF NOT EXISTS `comments`(
+                            `id` integer PRIMARY KEY,
+                            `story` integer NOT NULL,
+                            `content` text,
+                            `parent` integer,
+                            `poster` text NOT NULL
+                          )"""
+    )
     mockdb._insert_data(
         "INSERT INTO `stories` (`title`, `content`, `url`, `poster`) VALUES (?, ?, ?, ?)",
         ("Post 1", "This is the content of the first post", "", "user1"),
@@ -105,7 +114,7 @@ class TestMain:
         response = client.post("/", json={**payload, "content": "test content"})
         assert response.status_code == 200
 
-    def test_get_one_story(self, client):
+    def test_get_one_story(self, client, mock_db):
         response = client.get("/1")
         assert response.status_code == 200
         assert response.json() == {
@@ -116,11 +125,23 @@ class TestMain:
             "id": 1,
         }
 
-    def test_getting_non_existent_story_returns_404(self, client):
+    def test_getting_non_existent_story_returns_404(self, client, mock_db):
         response = client.get("/100")
         assert response.status_code == 404
         assert response.json() == {"detail": "Story not found"}
 
-    def test_add_comment_to_story(self, client):
-        response = client.post("/1/comment", json={"text": "This is a comment", "poster": "user1"})
+    def test_add_comment_to_story(self, client, mock_db):
+        response = client.post("/1/comments", json={"content": "This is a comment", "poster": "user1"})
         assert response.status_code == 200
+
+    def test_cannot_add_comment_to_non_existent_story(self, client, mock_db):
+        response = client.post("/100/comments", json={"content": "This is a comment", "poster": "user1"})
+        assert response.status_code == 404
+    
+    def test_get_comments(self, client, mock_db):
+        response = client.get("/1/comments")
+        assert response.status_code == 200
+        assert response.json() == []
+        response = client.post("/1/comments", json={"content": "This is a comment", "poster": "user1"})
+        response = client.get("/1/comments")
+        assert response.json() == [{"content": "This is a comment", "poster": "user1", "id": 1, "parent": None, "story": 1}]

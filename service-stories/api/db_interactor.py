@@ -59,3 +59,15 @@ class DB:
         if not stories:
             raise ItemNotFound
         return stories[0]
+
+    def add_comment(self, story_id: int, comment: dict):
+        self._execute_query(
+            "INSERT INTO `comments` (story, content, poster) VALUES (?, ?, ?)",
+            (story_id, comment["content"], comment["poster"]),
+        )
+
+    def get_comments(self, story_id: int):
+        comments = self._fetch_query(
+            "SELECT * FROM `comments` WHERE story=?", (story_id,)
+        )
+        return [dict(comment) for comment in comments]
