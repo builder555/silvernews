@@ -67,7 +67,5 @@ class DB:
         )
 
     def get_comments(self, story_id: int):
-        comments = self._fetch_query(
-            "SELECT * FROM `comments` WHERE story=?", (story_id,)
-        )
+        comments = self._fetch_query("SELECT * FROM `comments` WHERE story=?", (story_id,))
         return [dict(comment) for comment in comments]

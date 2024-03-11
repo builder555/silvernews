@@ -51,6 +51,7 @@ def get_story(story_id: int, db=Depends(get_db)):
     except ItemNotFound:
         raise HTTPException(status_code=404, detail="Story not found")
 
+
 @app.post("/{story_id}/comments")
 def add_new_comment(story_id: int, comment: CommentModel, db=Depends(get_db)):
     try:
@@ -59,6 +60,7 @@ def add_new_comment(story_id: int, comment: CommentModel, db=Depends(get_db)):
         return {"message": "Comment added successfully!"}
     except ItemNotFound:
         raise HTTPException(status_code=404, detail="Story not found")
+
 
 @app.get("/{story_id}/comments")
 def get_comments(story_id: int, db=Depends(get_db)):

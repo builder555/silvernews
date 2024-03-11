@@ -131,17 +131,25 @@ class TestMain:
         assert response.json() == {"detail": "Story not found"}
 
     def test_add_comment_to_story(self, client, mock_db):
-        response = client.post("/1/comments", json={"content": "This is a comment", "poster": "user1"})
+        response = client.post(
+            "/1/comments", json={"content": "This is a comment", "poster": "user1"}
+        )
         assert response.status_code == 200
 
     def test_cannot_add_comment_to_non_existent_story(self, client, mock_db):
-        response = client.post("/100/comments", json={"content": "This is a comment", "poster": "user1"})
+        response = client.post(
+            "/100/comments", json={"content": "This is a comment", "poster": "user1"}
+        )
         assert response.status_code == 404
-    
+
     def test_get_comments(self, client, mock_db):
         response = client.get("/1/comments")
         assert response.status_code == 200
         assert response.json() == []
-        response = client.post("/1/comments", json={"content": "This is a comment", "poster": "user1"})
+        response = client.post(
+            "/1/comments", json={"content": "This is a comment", "poster": "user1"}
+        )
         response = client.get("/1/comments")
-        assert response.json() == [{"content": "This is a comment", "poster": "user1", "id": 1, "parent": None, "story": 1}]
+        assert response.json() == [
+            {"content": "This is a comment", "poster": "user1", "id": 1, "parent": None, "story": 1}
+        ]
