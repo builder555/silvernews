@@ -76,7 +76,7 @@ class DB:
             (story["url"], story["title"], story["content"], story["poster"]),
         )
 
-    def get_story(self, story_id: int):
+    def get_story(self, story_id: int) -> dict:
         stories = self._fetch_query("SELECT * FROM `stories` WHERE id=?", (story_id,))
         if not stories:
             raise StoryNotFound
@@ -88,12 +88,12 @@ class DB:
             (story_id, comment["content"], comment["poster"], comment["parent"]),
         )
 
-    def get_comment(self, comment_id: int):
+    def get_comment(self, comment_id: int) -> dict:
         comments = self._fetch_query("SELECT * FROM `comments` WHERE id=?", (comment_id,))
         if not comments:
             raise CommentNotFound
         return comments[0]
 
-    def get_comments(self, story_id: int):
+    def get_comments(self, story_id: int) -> list[dict]:
         comments = self._fetch_query("SELECT * FROM `comments` WHERE story=?", (story_id,))
         return [dict(comment) for comment in comments]
