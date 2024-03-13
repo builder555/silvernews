@@ -15,6 +15,24 @@ class DB:
         self.connection = sqlite3.connect(path, check_same_thread=False)
         self.connection.row_factory = sqlite3.Row
         self.cursor = self.connection.cursor()
+        self._create_table(
+            """CREATE TABLE IF NOT EXISTS `stories`(
+                                `id` integer PRIMARY KEY,
+                                `title` text NOT NULL,
+                                `content` text,
+                                `url` text,
+                                `poster` text NOT NULL
+                            )"""
+        )
+        self._create_table(
+            """CREATE TABLE IF NOT EXISTS `comments`(
+                                `id` integer PRIMARY KEY,
+                                `story` integer NOT NULL,
+                                `content` text,
+                                `parent` integer,
+                                `poster` text NOT NULL
+                            )"""
+        )
 
     def _execute_query(self, query, params=()):
         """Executes a given SQL query with optional parameters."""

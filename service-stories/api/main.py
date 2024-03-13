@@ -6,25 +6,6 @@ from api import app
 
 def get_db():
     db = DB("main.db")
-    if not db._table_exists("stories"):
-        db._create_table(
-            """CREATE TABLE IF NOT EXISTS `stories`(
-                    `id` integer PRIMARY KEY,
-                    `title` text NOT NULL,
-                    `content` text,
-                    `url` text,
-                    `poster` text NOT NULL
-                )"""
-        )
-        db._create_table(
-            """CREATE TABLE IF NOT EXISTS `comments`(
-                                `id` integer PRIMARY KEY,
-                                `story` integer NOT NULL,
-                                `content` text,
-                                `parent` integer,
-                                `poster` text NOT NULL
-                            )"""
-        )
     yield db
 
 

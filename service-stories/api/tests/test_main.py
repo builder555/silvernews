@@ -13,24 +13,6 @@ def client():
 @pytest.fixture(autouse=True)
 def mock_db():
     mockdb = DB(path=":memory:")
-    mockdb._create_table(
-        """CREATE TABLE IF NOT EXISTS `stories`(
-                            `id` integer PRIMARY KEY,
-                            `title` text NOT NULL,
-                            `content` text,
-                            `url` text,
-                            `poster` text NOT NULL
-                          )"""
-    )
-    mockdb._create_table(
-        """CREATE TABLE IF NOT EXISTS `comments`(
-                            `id` integer PRIMARY KEY,
-                            `story` integer NOT NULL,
-                            `content` text,
-                            `parent` integer,
-                            `poster` text NOT NULL
-                          )"""
-    )
     mockdb._insert_data(
         "INSERT INTO `stories` (`title`, `content`, `url`, `poster`) VALUES (?, ?, ?, ?)",
         ("Post 1", "This is the content of the first post", "", "user1"),
