@@ -25,3 +25,4 @@ class CommentModel(BaseModel):
         json_schema_extra={"example": "This is a very interesting article about bitcoin"}
     )
     poster: str = Field(json_schema_extra={"example": "123"})
+    parent: Optional[int] = None

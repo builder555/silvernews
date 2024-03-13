@@ -1,7 +1,11 @@
 import sqlite3
 
 
-class ItemNotFound(Exception):
+class StoryNotFound(Exception):
+    pass
+
+
+class CommentNotFound(Exception):
     pass
 
 
@@ -57,14 +61,20 @@ class DB:
     def get_story(self, story_id: int):
         stories = self._fetch_query("SELECT * FROM `stories` WHERE id=?", (story_id,))
         if not stories:
-            raise ItemNotFound
+            raise StoryNotFound
         return stories[0]
 
     def add_comment(self, story_id: int, comment: dict):
         self._execute_query(
-            "INSERT INTO `comments` (story, content, poster) VALUES (?, ?, ?)",
-            (story_id, comment["content"], comment["poster"]),
+            "INSERT INTO `comments` (story, content, poster, parent) VALUES (?, ?, ?, ?)",
+            (story_id, comment["content"], comment["poster"], comment["parent"]),
         )
+
+    def get_comment(self, comment_id: int):
+        comments = self._fetch_query("SELECT * FROM `comments` WHERE id=?", (comment_id,))
+        if not comments:
+            raise CommentNotFound
+        return comments[0]
 
     def get_comments(self, story_id: int):
         comments = self._fetch_query("SELECT * FROM `comments` WHERE story=?", (story_id,))
