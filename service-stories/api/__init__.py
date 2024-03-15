@@ -27,12 +27,13 @@ app.add_middleware(
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
     ers = exc.errors()
     errors = []
-    errors_by_field = {}
     for e in ers:
-        field_name = humps.decamelize(" > ".join(e["loc"][1:])).replace("_", " ")
-        errors.append(f"{e['msg']}: '{field_name}'")
-        errors_by_field[field_name] = e["msg"]
+        field_name = humps.decamelize(" > ".join(map(str, e["loc"][1:]))).replace("_", " ")
+        err_str = f"{e['msg']}"
+        if field_name:
+            err_str += f": '{field_name}'"
+        errors.append(err_str)
     return JSONResponse(
         status_code=418,
-        content=jsonable_encoder({"detail": "; ".join(errors), "errors": errors_by_field}),
+        content=jsonable_encoder({"detail": "; ".join(errors)}),
     )
