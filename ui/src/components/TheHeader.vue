@@ -1,9 +1,9 @@
 <script setup>
-
 </script>
 
 <template>
-  <main>
-    <p>Main View</p>
-  </main>
+  <header>
+    <h1>Header</h1>
+  </header>
 </template>
+
