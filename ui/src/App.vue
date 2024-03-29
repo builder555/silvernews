@@ -30,11 +30,10 @@ body.dark {
 :root {
   --color-warning: #ffcc00;
 }
-/* .button.warning {
-  background-color: var(--color-warning);
-  color: var(--font-color);
-} */
 .warning {
   color: var(--color-warning);
+}
+nav a {
+  cursor: pointer;
 }
 </style>
