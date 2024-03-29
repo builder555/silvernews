@@ -1,13 +1,16 @@
 <script setup>
 import { computed } from 'vue';
 import { useStore } from '@/stores/theme';
-const store = useStore();
+const themeStore = useStore();
 const darkIcon = 'https://icongr.am/feather/sun.svg?size=128&color=ffcc00';
 const lightIcon = 'https://icongr.am/feather/moon.svg?size=128&color=000';
 
 const themeIcon = computed(() => {
-  return store.isDark ? darkIcon : lightIcon;
+  return themeStore.isDark ? darkIcon : lightIcon;
 });
+if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  themeStore.setDark(true);
+}
 </script>
 
 <template>
@@ -17,11 +20,11 @@ const themeIcon = computed(() => {
         <a class="brand">SilverNews</a>
         <div class="tabs">
           <a>New</a>
-          <a class="active">Submit</a>
+          <a>Submit</a>
         </div>
       </div>
       <div class="nav-right">
-        <a class="button clear icon-only" @click="store.toggleTheme">
+        <a class="button clear icon-only" @click="themeStore.toggleTheme">
           <img :src="themeIcon" />
         </a>
         <a class="active">Log In</a>

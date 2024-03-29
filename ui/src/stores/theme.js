@@ -12,6 +12,9 @@ export const useStore = defineStore('counter', () => {
       body.classList.remove('dark');
     }
   }
+  function setDark(shouldBeDark) {
+    if (isDark.value !== shouldBeDark) toggleTheme();
+  }
 
-  return { isDark, toggleTheme };
+  return { isDark, toggleTheme, setDark };
 });
