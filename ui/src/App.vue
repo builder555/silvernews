@@ -1,6 +1,6 @@
 <script setup>
-import { RouterView } from 'vue-router'
-import TheHeader from './components/TheHeader.vue'
+import { RouterView } from 'vue-router';
+import TheHeader from './components/TheHeader.vue';
 </script>
 
 <template>
@@ -16,7 +16,8 @@ import TheHeader from './components/TheHeader.vue'
   box-sizing: border-box;
   font-weight: normal;
 }
-html, body {
+html,
+body {
   height: 100%;
 }
 body.dark {
