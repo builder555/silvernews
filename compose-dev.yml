@@ -17,3 +17,11 @@ services:
       - "5122:5122"
     volumes:
       - ./service-auth:/app
+  db:
+    image: postgres:16
+    environment: 
+      - POSTGRES_PASSWORD=admin
+    healthcheck:
+      test: "exit 0"
+    ports:
+      - 5432:5432
