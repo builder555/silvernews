@@ -28,5 +28,8 @@
     "vite": "^7.3.6",
     "vite-plugin-vue-devtools": "^8.1.2",
     "vitest": "^4.1.0"
+  },
+  "overrides": {
+    "js-yaml": "^4.3.2"
   }
 }
