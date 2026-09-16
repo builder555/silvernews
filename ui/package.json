@@ -27,7 +27,7 @@
     "prettier": "^3.0.3",
     "vite": "^7.3.6",
     "vite-plugin-vue-devtools": "^8.1.2",
-    "vitest": "^4.1.0"
+    "vitest": "^4.1.11"
   },
   "overrides": {
     "js-yaml": "^4.3.2"
